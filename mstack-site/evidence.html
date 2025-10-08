@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Evidence & Benchmark Results - Artificial Metacognition</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.plot.ly/plotly-2.32.0.min.js" charset="utf-8"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; color: #2B2B2B; }
+        h1, h2 { color: #1A4C9A; }
+        table { width: 100%; border-collapse: collapse; margin: 2rem 0; font-size: 0.95em; }
+        th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
+        th { background-color: #f8f8f8; }
+        .chart { border: 1px solid #ddd; border-radius: 8px; margin-bottom: 2rem; }
+        .note { font-size: 0.9em; color: #666; }
+        a { color: #00AEEF; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Benchmark Evidence</h1>
+        <p class="note">This page automatically renders the latest data from <code>/results/results.json</code>. <a href="/">Back to whitepaper</a>.</p>
+    </header>
+
+    <section>
+        <h2>Hallucination Rate</h2>
+        <table id="hallucination-table">
+            <thead>
+                <tr><th>Domain</th><th>Base</th><th>Self-Consistency</th><th>Judge-Gate</th><th>M-Stack</th></tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    <section>
+        <h2>Calibration & Risk-Coverage</h2>
+        <table id="calibration-table">
+            <thead>
+                <tr><th>Metric</th><th>Base</th><th>M-Stack</th></tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+    
+    <section>
+        <h2>Risk-Controlling Coverage (RCC) Curve</h2>
+        <div id="rcc-chart" class="chart"></div>
+    </section>
+
+    <script src="evidence.js"></script>
+</body>
+</html>
