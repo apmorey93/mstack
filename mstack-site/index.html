@@ -2,22 +2,29 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <title>Artificial Metacognition — M‑Stack (v1.2)</title>
+  <title>Artificial Metacognition — M-Stack (v1.2)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="description" content="M‑Stack: a reliability architecture that gives AI systems the ability to know when they're wrong."/>
-  <meta name="author" content="AI Reliability Research Group"/>
+  <meta name="description" content="M-Stack: a reliability architecture that gives AI systems the ability to know when they're wrong."/>
+  <meta name="author" content="Aditya Morey"/>
   <meta name="robots" content="index,follow"/>
 
-  <!-- Canonical + OG (absolute URLs for GitHub Pages /mstack/) -->
+  <!-- Canonical + OG -->
   <link rel="canonical" href="https://apmorey93.github.io/mstack/"/>
-  <meta property="og:title" content="Artificial Metacognition — M‑Stack (v1.2)"/>
+  <meta property="og:title" content="Artificial Metacognition — M-Stack (v1.2)"/>
   <meta property="og:description" content="A reliability architecture that knows when to slow down, verify, or abstain."/>
   <meta property="og:type" content="website"/>
   <meta property="og:url" content="https://apmorey93.github.io/mstack/"/>
   <meta property="og:image" content="https://apmorey93.github.io/mstack/assets/figures/cover_og.png"/>
   <meta name="theme-color" content="#0b0f17"/>
+  <meta name="color-scheme" content="dark light">
 
-  <!-- Favicons (add PNG fallback at assets/figures/favicon.png) -->
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Artificial Metacognition — M-Stack (v1.2)">
+  <meta name="twitter:description" content="A reliability architecture that knows when to slow down, verify, or abstain.">
+  <meta name="twitter:image" content="https://apmorey93.github.io/mstack/assets/figures/cover_og.png">
+
+  <!-- Favicons -->
   <link rel="icon" href="assets/figures/favicon.svg" type="image/svg+xml"/>
   <link rel="icon" href="assets/figures/favicon.png" sizes="any" type="image/png"/>
 
@@ -25,8 +32,145 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    @font-face { font-family: 'Inter'; font-display: swap; src: local('Inter'); }
 
-  <link rel="stylesheet" href="assets/styles.custom.css">
+    :root {
+      --bg:#0b0f17; --bg-2:#0e121b;
+      --panel:rgba(255,255,255,0.06); --panel-2:rgba(255,255,255,0.08);
+      --text:#e6e9f0; --muted:#9aa3b2; --text-muted:#9aa3b2;
+      --brand:#60a5fa; --brand-2:#22d3ee; --brand-dark:#1b3a6b;
+      --ok:#22c55e; --warn:#f59e0b; --danger:#ef4444;
+      --border:rgba(255,255,255,0.12);
+      --glow:0 0 40px rgba(34,211,238,0.15), 0 0 80px rgba(96,165,250,0.12);
+      --radius:16px; --shadow:0 10px 30px rgba(0,0,0,0.45);
+      --code:#cbd5e1; --mono:"Fira Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --surface:rgba(255,255,255,0.04); --surface-soft:rgba(255,255,255,0.02);
+    }
+
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{height:100%}
+    html{scroll-behavior:smooth;background:var(--bg)}
+    body{margin:0;color:var(--text);font:16px/1.65 "Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;overflow-x:hidden}
+    a{color:var(--brand-2);text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    /* Backgrounds */
+    .bg,.bg2{position:fixed;inset:-12vmax;background:
+      radial-gradient(60vmax 60vmax at 20% 10%, rgba(34,211,238,0.08), transparent 60%),
+      radial-gradient(70vmax 70vmax at 80% 20%, rgba(96,165,250,0.10), transparent 60%),
+      radial-gradient(60vmax 60vmax at 50% 80%, rgba(34,197,94,0.07), transparent 60%),
+      linear-gradient(180deg,#0b0f17,#0e121b 60%,#0b0f17);
+      filter:blur(.2px); z-index:-3; animation:pan 60s linear infinite}
+    .bg2{opacity:.6; filter:blur(1.2px) saturate(120%); animation-duration:120s; z-index:-4}
+    @keyframes pan{0%{transform:translate3d(0,0,0) scale(1.05)}50%{transform:translate3d(0,-2%,0) scale(1.07)}100%{transform:translate3d(0,0,0) scale(1.05)}}
+    .scanline{position:fixed;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(255,255,255,.04) 50%,transparent);background-size:100% 200%;mix-blend-mode:overlay;opacity:.25;z-index:-2;animation:scan 18s linear infinite}
+    @keyframes scan{0%{background-position:0 -200%}100%{background-position:0 200%}}
+
+    @media (prefers-reduced-motion: reduce){
+      .bg,.bg2,.scanline{animation:none}
+      html{scroll-behavior:auto}
+    }
+
+    .wrap{max-width:1160px;margin:0 auto;padding:0 20px}
+    .wrap-main{max-width:1160px;margin:0 auto;padding:0 20px}
+    .glass{background:var(--panel);border:1px solid var(--border);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:var(--radius);box-shadow:var(--shadow)}
+
+    /* Header */
+    .top{position:sticky;top:0;z-index:20;background:linear-gradient(to bottom,rgba(11,15,23,.85),rgba(11,15,23,0));border-bottom:1px solid rgba(255,255,255,.04);backdrop-filter:blur(10px)}
+    .nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+    .brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+    .logo{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;font-weight:800;color:#0b0f17;background:linear-gradient(135deg,var(--brand-2),var(--brand));box-shadow:var(--glow)}
+    .brand-title{font-weight:800;letter-spacing:.2px;color:#e8eefc}
+    .brand-sub{font-size:12px;color:var(--muted);margin-top:-4px}
+    .group{display:flex;gap:12px;align-items:center}
+    .nav a.btn{display:inline-block;padding:10px 14px;border-radius:12px;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#0b0f17;font-weight:700;border:1px solid rgba(255,255,255,.06);box-shadow:var(--glow)}
+    .nav a.ghost{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.14)}
+
+    /* Focus */
+    .btn,.lab-run-btn{transition:transform .2s ease,box-shadow .2s ease,background .2s ease,border-color .2s ease}
+    .btn:active,.lab-run-btn:active{transform:translateY(1px) scale(.99)}
+    .btn:focus-visible,.lab-run-btn:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(34,211,238,.35),0 0 0 6px rgba(96,165,250,.25)}
+    .skip{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}
+    .skip:focus{position:fixed;left:20px;top:20px;width:auto;height:auto;z-index:9999;padding:8px 12px;background:#111827;color:#fff;border-radius:8px}
+
+    /* Hero */
+    .hero{padding:84px 0 44px;display:grid;place-items:center;text-align:center;will-change:transform;transform-style:preserve-3d}
+    .eyebrow{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--muted);font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:12px}
+    .title{margin:16px 0 10px;font-size:clamp(32px,5vw,56px);line-height:1.08;font-weight:800;letter-spacing:-.02em;background:linear-gradient(90deg,#e5f2ff,#b9e8ff 30%,#b7fff8 70%,#e5f2ff);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 30px rgba(96,165,250,.25)}
+    .lede{color:#cbd5e1;max-width:820px;margin:0 auto 28px;font-size:clamp(16px,1.6vw,20px)}
+    .cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:14px}
+    .cta a{padding:12px 18px;border-radius:14px;font-weight:700;border:1px solid rgba(255,255,255,.12);transition:transform .2s ease, box-shadow .2s ease, background .2s ease}
+    .cta .primary{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#0b0f17;box-shadow:var(--glow)}
+    .cta .primary:hover{transform:translateY(-2px)}
+    .cta .ghost{background:rgba(255,255,255,.03);color:var(--text)}
+    .cta .ghost:hover{background:rgba(255,255,255,.06);transform:translateY(-2px)}
+    .chips{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:22px}
+    .chip{padding:8px 12px;border-radius:999px;font-weight:600;font-size:13px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);color:#dbeafe}
+
+    /* Panels */
+    .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:22px;margin:46px auto 86px}
+    @media (max-width:960px){.grid{grid-template-columns:1fr}}
+    .panel{padding:22px}
+    .panel h2{margin:0 0 10px;font-size:22px;color:#e6eefc}
+    .panel p{color:#c7cfdb;margin:10px 0 0}
+
+    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:16px}
+    @media (max-width:960px){.cards{grid-template-columns:1fr}}
+    .card{padding:18px;border-radius:14px;border:1px solid var(--border);background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.04));transform-style:preserve-3d;transition:transform .2s ease}
+    .card h3{margin:2px 0 8px;color:#e6eefc}
+    .card p{margin:0;color:#b8c2d1}
+    .card:hover{transform:translateY(-2px) rotateX(.6deg) rotateY(.6deg)}
+
+    /* Diagram */
+    .diagram{margin-top:18px;will-change:transform}
+    .diagram svg{width:100%;height:auto;display:block}
+    .pulse{opacity:.6;transition:opacity .6s ease, transform .6s ease;transform-origin:center}
+    .pulse.is-on{opacity:1;transform:scale(1.015);filter:drop-shadow(0 0 12px rgba(96,165,250,.35))}
+
+    /* Lab */
+    #lab-container{max-width:1000px;margin:0 auto 6rem;padding:0 2rem;opacity:0;transform:translateY(30px);transition:opacity .8s, transform .8s}
+    #lab-container.visible{opacity:1;transform:translateY(0)}
+    #lab-container-inner{border:1px solid var(--border);border-radius:var(--radius);padding:24px;background:var(--surface-soft);font-size:11pt}
+    #lab-tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:20px}
+    #lab-tabs button{padding:12px 20px;border:none;background:none;cursor:pointer;font-size:11pt;font-weight:600;color:var(--text-muted);border-bottom:3px solid transparent;margin-bottom:-1px}
+    #lab-tabs button.active{color:var(--brand);border-bottom-color:var(--brand)}
+    #lab-tabs button:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(34,211,238,.35),0 0 0 6px rgba(96,165,250,.25)}
+    .lab-demo{display:none}
+    .lab-demo.active{display:block}
+    .lab-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
+    .lab-column h3{font-size:13pt;color:var(--text);border-bottom:2px solid var(--border);padding-bottom:8px;margin-bottom:14px}
+    .lab-output{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;min-height:180px;white-space:pre-wrap;word-wrap:break-word;font-family:'Inter',sans-serif}
+    .lab-output .signal{font-size:10pt;font-style:italic;color:#ffaa66;border-top:1px dashed var(--border);padding-top:10px;margin-top:10px}
+    .decision-emit{color:var(--ok);font-weight:bold}
+    .decision-abstain{color:var(--warn);font-weight:bold}
+    .lab-controls{margin-top:20px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+    .lab-run-btn{background:linear-gradient(135deg,var(--brand),var(--brand-dark));color:var(--bg);border:none;padding:10px 20px;border-radius:8px;cursor:pointer;font-weight:600;box-shadow:var(--glow)}
+    .lab-run-btn:hover{transform:translateY(-2px);box-shadow:0 0 20px rgba(0,240,255,.4)}
+    .lab-run-btn:disabled{background:#555;cursor:not-allowed;transform:none;box-shadow:none}
+    .docs{background:rgba(0,240,255,.03);border:1px solid rgba(0,240,255,.1);padding:12px;font-size:10.5pt;margin-top:14px;border-radius:8px;color:var(--text-muted)}
+    .docs strong{color:var(--brand)}
+
+    /* Whitepaper section */
+    #whitepaper{max-width:1160px;margin:0 auto 80px;padding:0 20px}
+    .wp-grid{display:grid;grid-template-columns:260px 1fr;gap:22px}
+    @media (max-width:1000px){.wp-grid{grid-template-columns:1fr}}
+    .wp-toc{position:sticky;top:96px;height:max-content}
+    .wp-card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px}
+    .wp-card a{display:block;padding:6px 8px;border-radius:8px;color:#cfe8ff}
+    .wp-card a:hover{background:rgba(255,255,255,.06)}
+    .wp-content{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:24px}
+    .wp-content h1,.wp-content h2,.wp-content h3{scroll-margin-top:90px}
+    .wp-content code, .wp-content pre{font-family:var(--mono);color:var(--code)}
+    .wp-content pre{background:rgba(255,255,255,.04);border:1px solid var(--border);padding:12px;border-radius:10px;overflow:auto}
+
+    /* Footer */
+    footer{border-top:1px solid rgba(255,255,255,.08);padding:28px 0;color:var(--muted);text-align:center;background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.02))}
+
+    /* Reveal */
+    .reveal{opacity:0;transform:translateY(10px);transition:opacity .6s ease, transform .6s ease}
+    .reveal.is-visible{opacity:1;transform:none}
+  </style>
 </head>
 <body>
   <a href="#main" class="skip">Skip to content</a>
@@ -35,55 +179,56 @@
   <div class="scanline" aria-hidden="true"></div>
 
   <!-- Header -->
-  <div class="top">
+  <div class="top" role="banner">
     <div class="wrap nav">
       <a class="brand" href="./index.html" aria-label="Artificial Metacognition home">
-        <div class="logo">M</div>
+        <div class="logo" aria-hidden="true">M</div>
         <div>
           <div class="brand-title">Artificial Metacognition</div>
-          <div class="brand-sub">M‑Stack • Reliability for AI</div>
+          <div class="brand-sub">M-Stack • Reliability for AI</div>
         </div>
       </a>
       <div class="group">
-        <a class="btn ghost" href="./evidence.html">Evidence</a>
+        <a class="btn ghost" href="#lab">Live Demo</a>
         <a class="btn" href="https://github.com/apmorey93/mstack" target="_blank" rel="noopener noreferrer">GitHub</a>
       </div>
     </div>
   </div>
 
   <!-- Hero -->
-  <header class="hero wrap glass reveal" id="main" role="banner">
+  <header class="hero wrap glass reveal" id="main" role="heading" aria-level="1" aria-describedby="hero-desc">
     <span class="eyebrow">Whitepaper • v1.2</span>
     <h1 class="title">AI that knows when it’s wrong</h1>
-    <p class="lede">M‑Stack wraps any model with a metacognitive layer that can monitor uncertainty, verify claims, and <em>abstain</em> when evidence is weak — converting raw capability into <strong>auditable reliability</strong>.</p>
-    <div class="cta">
-      <a class="primary" href="./evidence.html">View Evidence & Benchmarks</a>
-      <a class="ghost" href="#summary">Read the Summary</a>
+    <p id="hero-desc" class="lede">M-Stack wraps any model with a metacognitive layer that can monitor uncertainty, verify claims, and <em>choose to abstain</em> when evidence is weak — converting raw capability into <strong>auditable reliability</strong>.</p>
+    <div class="cta" role="group" aria-label="Primary actions">
+      <a class="primary btn" href="#whitepaper">Read the Whitepaper</a>
+      <a class="ghost btn" href="./evidence.html">Evidence & Benchmarks</a>
     </div>
     <div class="chips" aria-hidden="true">
-      <div class="chip" data-countup="60" data-suffix="%">≈60% fewer hallucinations</div>
-      <div class="chip">↓ AURC • ↑ calibration</div>
-      <div class="chip">Audit‑ready logs</div>
+      <div class="chip" id="halluc-counter">≈0% fewer hallucinations</div>
+      <div class="chip" id="aurc-counter">↓ AURC • ↑ calibration</div>
+      <div class="chip">Audit-ready logs</div>
     </div>
   </header>
 
-  <!-- Content -->
+  <!-- Summary -->
   <main class="wrap-main">
     <section id="summary" class="grid">
-      <!-- Main panel -->
-      <article class="panel glass reveal">
-        <h2>What is M‑Stack?</h2>
-        <p>A four‑layer reliability architecture — <strong>Monitor → Evaluate → Control → Learn</strong> — that supervises generation, scores quality and grounding, chooses actions (<em>verify, revise, abstain, emit</em>), and adapts its thresholds over time.</p>
+      <article class="panel glass reveal" aria-labelledby="what-is">
+        <h2 id="what-is">What is M-Stack?</h2>
+        <p>A four-layer reliability architecture — <strong>Monitor → Evaluate → Control → Learn</strong> — that supervises generation, scores quality and grounding, chooses actions (<em>verify, revise, abstain, emit</em>), and adapts its thresholds over time.</p>
 
-        <div class="cards">
-          <div class="card"><h3>Monitor</h3><p>Entropy, disagreement, and contradiction checks identify risky outputs before they escape.</p></div>
-          <div class="card"><h3>Evaluate</h3><p>Judge/PRM scoring plus citation alignment to detect unsupported claims in RAG.</p></div>
-          <div class="card"><h3>Control</h3><p>CMDP policy enforces risk caps and budgets: verify, abstain, or emit with a rationale.</p></div>
+        <div class="cards" role="list">
+          <div class="card" role="listitem"><h3>Monitor</h3><p>Entropy, disagreement, and contradiction checks identify risky outputs before they escape.</p></div>
+          <div class="card" role="listitem"><h3>Evaluate</h3><p>Judge/PRM scoring plus citation alignment to detect unsupported claims in RAG.</p></div>
+          <div class="card" role="listitem"><h3>Control</h3><p>CMDP policy enforces risk caps and budgets: verify, abstain, or emit with a rationale.</p></div>
         </div>
 
-        <!-- Animated M‑Stack Diagram -->
-        <div class="diagram">
-          <svg viewBox="0 0 800 360" xmlns="http://www.w3.org/2000/svg" aria-label="M‑Stack Loop">
+        <!-- Animated M-Stack Diagram -->
+        <div class="diagram" role="img" aria-labelledby="mstack-title" aria-describedby="mstack-desc">
+          <svg viewBox="0 0 800 360" xmlns="http://www.w3.org/2000/svg">
+            <title id="mstack-title">M-Stack feedback loop around a foundation model</title>
+            <desc id="mstack-desc">Four modules—Monitor, Evaluate, Control, Learn—surround a central model. Arrows connect them in a loop to form metacognitive supervision.</desc>
             <defs>
               <linearGradient id="g1" x1="0" x2="1">
                 <stop offset="0%" stop-color="#22d3ee"/>
@@ -94,33 +239,28 @@
                 <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
               </filter>
             </defs>
-            <!-- Center model -->
+            <!-- Center -->
             <rect x="300" y="130" width="200" height="100" rx="12" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.18)"/>
             <text x="400" y="175" fill="#dbeafe" text-anchor="middle" font-weight="700">Foundation Model</text>
             <text x="400" y="196" fill="#9aa3b2" text-anchor="middle" font-size="12">(Black Box)</text>
-
             <!-- M1 -->
             <rect class="pulse" id="m1" x="325" y="14" width="150" height="70" rx="10" fill="rgba(34,211,238,0.12)" stroke="url(#g1)" filter="url(#softGlow)"/>
             <text x="400" y="42" fill="#e6e9f0" text-anchor="middle" font-weight="700">M1: Monitor</text>
             <text x="400" y="60" fill="#9aa3b2" text-anchor="middle" font-size="12">Uncertainty • Contradiction</text>
-
             <!-- M2 -->
             <rect class="pulse" id="m2" x="600" y="140" width="160" height="70" rx="10" fill="rgba(34,211,238,0.12)" stroke="url(#g1)" filter="url(#softGlow)"/>
             <text x="680" y="168" fill="#e6e9f0" text-anchor="middle" font-weight="700">M2: Evaluate</text>
             <text x="680" y="186" fill="#9aa3b2" text-anchor="middle" font-size="12">Factuality • Quality</text>
-
             <!-- M3 -->
             <rect class="pulse" id="m3" x="325" y="276" width="150" height="70" rx="10" fill="rgba(34,211,238,0.12)" stroke="url(#g1)" filter="url(#softGlow)"/>
             <text x="400" y="304" fill="#e6e9f0" text-anchor="middle" font-weight="700">M3: Control</text>
             <text x="400" y="322" fill="#9aa3b2" text-anchor="middle" font-size="12">Verify • Revise • Abstain • Emit</text>
-
             <!-- M4 -->
             <rect class="pulse" id="m4" x="40" y="140" width="160" height="70" rx="10" fill="rgba(34,211,238,0.12)" stroke="url(#g1)" filter="url(#softGlow)"/>
             <text x="120" y="168" fill="#e6e9f0" text-anchor="middle" font-weight="700">M4: Learn</text>
             <text x="120" y="186" fill="#9aa3b2" text-anchor="middle" font-size="12">Calibrate • Adapt</text>
-
             <!-- Arrows -->
-            <g stroke="#7dd3fc" stroke-width="1.5" fill="none" opacity=".7">
+            <g stroke="#7dd3fc" stroke-width="1.5" fill="none" opacity=".7" aria-hidden="true">
               <path d="M 475 45 C 550 45, 585 95, 600 140"/>
               <path d="M 600 210 C 585 260, 550 300, 475 310"/>
               <path d="M 325 310 C 250 310, 210 260, 200 210"/>
@@ -130,110 +270,588 @@
         </div>
       </article>
 
-      <!-- Side panel -->
-      <aside class="panel glass reveal">
-        <h2>Quick links</h2>
-        <nav class="toc toc-col" aria-label="Quick Links">
-          <a href="./evidence.html"><span class="dot"></span>&nbsp;Evidence & Benchmarks</a>
-          <a href="#summary"><span class="dot"></span>&nbsp;Summary</a>
-          <a href="https://github.com/apmorey93/mstack" target="_blank" rel="noopener noreferrer"><span class="dot"></span>&nbsp;GitHub Repository</a>
+      <aside class="panel glass reveal" aria-labelledby="quick-links">
+        <h2 id="quick-links">Quick links</h2>
+        <nav class="toc" aria-label="Quick Links" style="display:flex;flex-direction:column;gap:10px; margin-top:8px;">
+          <a href="#lab">Live Demo</a>
+          <a href="#whitepaper">Whitepaper</a>
+          <a href="./evidence.html">Evidence & Benchmarks</a>
+          <a href="https://github.com/apmorey93/mstack" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
         </nav>
 
-        <div class="card card-compact">
-          <h3 class="small-strong">For regulators & auditors</h3>
-          <p class="small-muted">M‑Stack produces tamper‑evident traces (confidence, contradictions, abstention rationales) designed for audits and incident reviews.</p>
+        <div class="card" style="margin-top:14px;padding:14px;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,0.04);">
+          <h3 style="margin:0 0 6px;color:#e6eefc;">For regulators & auditors</h3>
+          <p style="margin:0;color:#c7cfdb;">M-Stack produces tamper-evident traces (confidence, contradictions, abstention rationales) designed for audits and incident reviews. Aligned with EU AI Act, NIST AI RMF, ISO/IEC 42001.</p>
         </div>
 
-        <div class="card card-compact">
-          <h3 class="small-strong">Contact</h3>
-          <p class="small-muted">AI Reliability Research Group<br>
-            <a href="mailto:info@metacognition.ai">info@metacognition.ai</a></p>
+        <div class="card" style="margin-top:14px;padding:14px;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,0.04);">
+          <h3 style="margin:0 0 6px;color:#e6eefc;">Contact</h3>
+          <p style="margin:0;color:#c7cfdb;">Aditya Morey<br><a href="mailto:adityamorey1723@gmail.com">adityamorey1723@gmail.com</a></p>
         </div>
       </aside>
     </section>
   </main>
 
-  <footer class="wrap reveal" style="margin-bottom: 40px;">
-    <div class="glass panel footer-panel">
-      <div style="color:var(--muted);">© 2025 AI Reliability Research Group</div>
-      <div style="display:flex; gap:12px;">
-        <a class="btn ghost btn-compact" href="./evidence.html">Evidence</a>
-        <a class="btn ghost btn-compact" href="https://github.com/apmorey93/mstack" target="_blank" rel="noopener noreferrer">GitHub</a>
+  <!-- Interactive Lab -->
+  <div id="lab-container">
+    <div class="wrap reveal">
+      <h2 id="lab" style="text-align:center;margin-bottom:1rem;color:var(--brand);font-size:2rem;">Live M-Stack Demo</h2>
+      <p style="text-align:center;color:var(--text-muted);max-width:700px;margin:0 auto 2rem;">
+        See M-Stack in action. Compare base model hallucinations to M-Stack’s abstentions and verifications.
+      </p>
+      <div id="lab-container-inner" aria-label="Live demos">
+        <div id="lab-tabs" role="tablist" aria-label="Live M-Stack demos">
+          <button class="active" data-demo="rag" role="tab" aria-selected="true" aria-controls="demo-rag" id="tab-rag">RAG Citation Gate</button>
+          <button data-demo="unanswerable" role="tab" aria-selected="false" aria-controls="demo-unanswerable" id="tab-unanswerable">Unanswerable QA</button>
+          <button data-demo="risk" role="tab" aria-selected="false" aria-controls="demo-risk" id="tab-risk">Risk Controller</button>
+        </div>
+
+        <div id="demo-rag" class="lab-demo active" role="tabpanel" aria-labelledby="tab-rag">
+          <p><strong>Scenario:</strong> The model is asked a question that requires information from retrieved documents. The Base model may synthesize an answer even if it's not directly supported, while the M-Stack enforces a citation gate.</p>
+          <div class="docs">
+            <strong>Retrieved Document (Wikipedia Snippet):</strong>
+            <p>[S1] The Eiffel Tower is a wrought-iron lattice tower on the Champ de Mars in Paris, France. It is named after the engineer Gustave Eiffel, whose company designed and built the tower from 1887 to 1889.</p>
+          </div>
+          <div class="lab-controls">
+            <button class="lab-run-btn" id="lab-run-btn-rag">Run Simulation</button>
+            <span class="lab-status" id="lab-status-rag" style="color:var(--text-muted);" aria-live="polite"></span>
+          </div>
+          <div class="lab-grid">
+            <div class="lab-column">
+              <h3>Base Model</h3>
+              <div id="rag-base-output" class="lab-output" aria-live="polite"></div>
+            </div>
+            <div class="lab-column">
+              <h3>M-Stack</h3>
+              <div id="rag-mstack-output" class="lab-output" aria-live="polite"></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="demo-unanswerable" class="lab-demo" role="tabpanel" aria-labelledby="tab-unanswerable" hidden>
+          <p><strong>Scenario:</strong> The model is asked a question where the answer is not present in the provided context. The Base model may attempt to answer anyway (hallucinate), while the M-Stack should abstain.</p>
+          <div class="docs">
+            <strong>Context:</strong>
+            <p>The Golden Gate Bridge is a suspension bridge spanning the Golden Gate, the one-mile-wide strait connecting San Francisco Bay and the Pacific Ocean. Its construction began on January 5, 1933.</p>
+          </div>
+          <div class="lab-controls">
+            <button class="lab-run-btn" id="lab-run-btn-unanswerable">Run Simulation</button>
+            <span class="lab-status" id="lab-status-unanswerable" style="color:var(--text-muted);" aria-live="polite"></span>
+          </div>
+          <div class="lab-grid">
+            <div class="lab-column">
+              <h3>Base Model</h3>
+              <div id="unanswerable-base-output" class="lab-output" aria-live="polite"></div>
+            </div>
+            <div class="lab-column">
+              <h3>M-Stack</h3>
+              <div id="unanswerable-mstack-output" class="lab-output" aria-live="polite"></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="demo-risk" class="lab-demo" role="tabpanel" aria-labelledby="tab-risk" hidden>
+          <p><strong>Scenario:</strong> Given a set of items with different predicted correctness scores, the controller must decide which to emit to stay under a risk budget (e.g., max 20% error). It plots a simple Risk-Coverage curve.</p>
+          <div class="lab-controls">
+            <label for="risk-budget" style="color:var(--text);">Risk Budget (%):</label>
+            <input type="number" id="risk-budget" value="20" min="0" max="100" style="width: 80px; padding:6px; background:var(--surface); border:1px solid var(--border); color:var(--text); border-radius:4px;" aria-describedby="risk-help">
+            <span id="risk-help" class="docs" style="border:none;background:none;padding:0;margin:0 8px">Max allowed error among emitted items</span>
+            <button class="lab-run-btn" id="lab-run-btn-risk">Run Controller</button>
+            <span class="lab-status" id="lab-status-risk" style="color:var(--text-muted);" aria-live="polite"></span>
+          </div>
+          <div class="lab-grid">
+            <div class="lab-column">
+              <h3>Controller Output</h3>
+              <div id="risk-output" class="lab-output" aria-live="polite"></div>
+            </div>
+            <div class="lab-column">
+              <h3>Risk vs. Coverage</h3>
+              <div id="risk-chart" class="lab-output" style="padding:0; overflow:hidden;">
+                <svg id="risk-svg" viewBox="0 0 300 150" role="img" aria-label="Risk vs Coverage chart"></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Whitepaper (pasted) -->
+  <section id="whitepaper" aria-labelledby="wp-title">
+    <div class="wp-grid">
+      <aside class="wp-toc">
+        <div class="wp-card" aria-label="Whitepaper sections">
+          <strong style="display:block;margin-bottom:8px;color:#e6eefc">Whitepaper TOC</strong>
+          <a href="#sec1">1 Executive Summary</a>
+          <a href="#sec2">2 The Concept</a>
+          <a href="#sec2b">3 Related Work</a>
+          <a href="#sec3">4 M-Stack Architecture</a>
+          <a href="#sec35">4.1 Control (CMDP)</a>
+          <a href="#sec36">4.2 Process & Graph</a>
+          <a href="#sec4">5 MetaBench</a>
+          <a href="#sec4a">5A Experiments</a>
+          <a href="#sec4b">5B RCC & Conformal</a>
+          <a href="#sec5">6 Scenarios</a>
+          <a href="#sec5b">7 Limitations</a>
+          <a href="#sec5c">8 Robustness</a>
+          <a href="#sec6">9 Cost</a>
+          <a href="#sec7">10 Governance</a>
+          <a href="#sec8">11 Implementation</a>
+          <a href="#sec9">12 Results Snapshot</a>
+          <a href="#next">13 Next-Sprint Checklist</a>
+          <a href="#appx">14 Appendix</a>
+          <a href="#refs">References</a>
+        </div>
+      </aside>
+
+      <article class="wp-content">
+        <h1 id="wp-title" style="margin-top:0">Artificial Metacognition: A Reliability Architecture for Frontier AI Systems</h1>
+        <p class="subtitle">An Industry Framework for Auditable AI Reliability • Version 1.2</p>
+
+        <!-- ====== Begin pasted content (adapted to dark styles) ====== -->
+        <section id="sec1">
+          <h2>1 Executive Summary</h2>
+          <p>Scale has delivered breathtaking capability. Trust requires a second ingredient: systems that know when to slow down, look again, or ask for help. Metacognition is that ingredient.</p>
+          <p>We present M-Stack, an inference-time reliability layer that monitors uncertainty and contradiction, evaluates quality and grounding, controls actions (verify, revise, abstain, emit), and learns thresholds over time—with additions for risk guarantees (RCC), conformal citation-gated RAG, process supervision, and cost-aware constrained control.</p>
+          <div class="docs"><strong>Evidence Preview.</strong> Our evaluation plan establishes hallucination reduction and improved risk–coverage at matched cost against strong baselines, with RCC curves and conformal calibration providing guarantees on error@coverage.</div>
+        </section>
+
+        <section id="sec2">
+          <h2>2 The Concept: Artificial Metacognition</h2>
+          <p>Artificial Metacognition surrounds a model with a closed-loop control system that supervises and intervenes during inference.</p>
+        </section>
+
+        <section id="sec2b">
+          <h2>3 Related Work & Comparative Analysis</h2>
+          <p>We position M-Stack beyond post-hoc calibration and selective prediction by making uncertainty <em>actionable</em> (verify/revise/abstain) and <em>auditable</em> (logs, traces, and guarantees).</p>
+        </section>
+
+        <section id="sec3">
+          <h2>4 The M-Stack Architecture</h2>
+          <h3>4.0 Overview</h3>
+          <p>Training-agnostic control with four layers: Monitor, Evaluate, Control, Learn.</p>
+
+          <h3>4.0.1 Layers</h3>
+          <table>
+            <thead><tr><th>Layer</th><th>Function</th><th>Typical Implementation</th><th>Key Outputs</th></tr></thead>
+            <tbody>
+              <tr><td>M1 — Monitor</td><td>Detect uncertainty/contradiction</td><td>Sampling variance, entropy, NLI checks</td><td>Confidence, flags</td></tr>
+              <tr><td>M2 — Evaluate</td><td>Score quality/grounding</td><td>LLM-as-a-Judge, PRM (process)</td><td>Graded scores</td></tr>
+              <tr><td>M3 — Control</td><td>Choose action</td><td>Policy π(a|signals): verify, revise, abstain, emit</td><td>Decision trace</td></tr>
+              <tr><td>M4 — Learn</td><td>Adapt thresholds</td><td>Calibration + bandit updates</td><td>Updated params</td></tr>
+            </tbody>
+          </table>
+
+          <figure class="diagram" role="img" aria-label="M-Stack loop (redundant to earlier graphic)">
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+              <title>M-Stack Loop Diagram</title>
+              <desc>A feedback loop showing Monitor, Evaluate, Control, Learn around a foundation model.</desc>
+              <!-- (diagram content trimmed: we already render a primary one above to avoid duplication weight) -->
+              <rect x="300" y="150" width="200" height="100" rx="8" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.18)"></rect>
+              <text x="400" y="205" fill="#cfe8ff" text-anchor="middle" font-weight="700">Foundation Model</text>
+            </svg>
+            <figcaption>Four-part M-Stack loop operating around a core model.</figcaption>
+          </figure>
+        </section>
+
+        <section id="sec35">
+          <h2>4.1 Control as a Constrained Optimizer (CMDP)</h2>
+          <p>M3 maximizes selective utility under constraints: risk cap (error@coverage ≤ α) and cost caps (tokens/latency).</p>
+<pre><code># Lagrangian objective (per domain/route)
+maximize   E[U(a; x)] - λ · (cost(x,a) - B) - μ · (risk(x,a) - α)
+update     λ, μ via dual ascent; tune thresholds for verify/abstain/emit.
+</code></pre>
+          <div class="docs"><strong>Why:</strong> Replaces brittle rules with tunable guarantees. Ops can dial budgets and target error rates.</div>
+        </section>
+
+        <section id="sec36">
+          <h2>4.2 Process Supervision & Statement-Graph Contradiction</h2>
+          <p>M2 adds a process reward model (PRM) that scores steps; M1 builds a claim graph across K samples using NLI edges. M3 emits when a consistent subgraph meets score, otherwise verify/revise.</p>
+<pre><code># Weighted aggregation (Dawid–Skene style)
+# estimate path reliabilities and weight candidates before fusion
+</code></pre>
+        </section>
+
+        <section id="sec4">
+          <h2>5 MetaBench: Benchmarking Metacognition</h2>
+          <p>We evaluate accuracy, calibration (ECE, meta-d′), risk–coverage (AURC), RCC (guaranteed risk at coverage), hallucination rate, and abstention quality.</p>
+        </section>
+
+        <section id="sec4a">
+          <h2>5A Experiments & Evidence (Hallucination Reduction)</h2>
+          <h3>Claim</h3>
+          <p><strong>M-Stack reduces hallucinations at matched cost</strong> versus strong baselines across unanswerables, RAG, and (optionally) code.</p>
+          <h3>Tasks & Labels</h3>
+          <ul>
+            <li><strong>SQuAD 2.0 (unans)</strong>: hallucination = answers when should abstain</li>
+            <li><strong>TruthfulQA</strong>: hallucination = false claim</li>
+            <li><strong>RAG (Hotpot-style)</strong>: hallucination = claim lacks supporting retrieved citation (ID/hash)</li>
+            <li><strong>(Optional) HumanEval/MBPP</strong>: wrong claim about correctness (proxy)</li>
+          </ul>
+          <h3>Systems (equal cost ±5%)</h3>
+          <ol>
+            <li><strong>Base</strong> (single shot)</li>
+            <li><strong>Self-Consistency</strong> (K=3, majority)</li>
+            <li><strong>Judge-Gate</strong> (single + LLM-judge threshold)</li>
+            <li><strong>Conformal RAG</strong> (citation-coverage gate)</li>
+            <li><strong>M-Stack (full)</strong> (M1 variance+NLI, M2 judge+PRM+citations, M3 CMDP, M4 calibration)</li>
+          </ol>
+          <h3>Metrics & Tests</h3>
+          <ul>
+            <li><strong>Hallucination rate</strong> (primary) with 95% CIs; McNemar (paired)</li>
+            <li><strong>AURC</strong> (paired bootstrap)</li>
+            <li><strong>RCC</strong> (risk@coverage), <strong>ECE</strong>, <strong>meta-d′</strong></li>
+            <li><strong>Abstention quality</strong>: error rate among abstained vs kept</li>
+          </ul>
+          <h3>Acceptance Criteria</h3>
+          <ul>
+            <li>Unanswerables: ≥ <strong>30%</strong> relative hallucination reduction (p&lt;0.01)</li>
+            <li>RAG: ≥ <strong>40%</strong> unsupported-claim reduction at equal coverage</li>
+            <li>Better or equal AURC at matched budgets; ECE ↓ and meta-d′ ↑</li>
+          </ul>
+        </section>
+
+        <section id="sec4b">
+          <h2>5B RCC & Conformal Guarantees</h2>
+          <ul>
+            <li><strong>APS/RAPS</strong> for classification heads (set-valued predictions)</li>
+            <li><strong>Conformal RAG</strong>: emit only when citation coverage ≥ τ calibrated to control error@coverage</li>
+            <li><strong>RCC curves</strong>: plot minimal risk achievable at each coverage with our controller</li>
+          </ul>
+        </section>
+
+        <section id="sec5">
+          <h2>6 Industry Application Scenarios</h2>
+          <p>Customer support, clinical QA, auto-code, and enterprise RAG—with citation-gated emission and PRM-guided revisions.</p>
+        </section>
+
+        <section id="sec5b">
+          <h2>7 Limitations & Failure Modes</h2>
+          <p>Signal brittleness, verifier bias, latency/cost, human queueing, governance integrity.</p>
+        </section>
+
+        <section id="sec5c">
+          <h2>8 Robustness Under Shift</h2>
+          <ul>
+            <li><strong>Shift suites</strong>: paraphrase, entity swap, time-shifted facts, unseen schemas</li>
+            <li><strong>Drift monitors</strong>: track entropy, disagreement; tighten thresholds online</li>
+            <li>Report <em>worst-case</em> ECE/AURC across shifts</li>
+          </ul>
+        </section>
+
+        <section id="sec6">
+          <h2>9 Cost of Metacognition</h2>
+          <p>Dynamic-K and localized revision (PRM-guided) recover 30–50% of overhead at fixed risk.</p>
+        </section>
+
+        <section id="sec7">
+          <h2>10 Regulatory Alignment & Governance</h2>
+          <p>Assurance evidence: logs, policy signatures, RCC targets, and audit-ready spans.</p>
+        </section>
+
+        <section id="sec8">
+          <h2>11 Implementation Guide</h2>
+<pre><code># Orchestrator sketch
+def pipeline(query):
+  K = dynamic_k(query)                 # 1/3/5 based on early signals
+  cands = [llm_api.generate(query) for _ in range(K)]
+  m1 = monitor(cands)                  # variance, NLI, OOD probes
+  m2 = evaluate(cands)                 # judge + PRM + citation alignment
+  a  = cmdp_decide(m1, m2)             # verify / revise / abstain / emit
+  y  = execute(a, cands, query)        # localized revision if needed
+  learn.update(m1, m2, a, y)           # calibration + thresholds
+  return y
+</code></pre>
+        </section>
+
+        <section id="sec9">
+          <h2>12 Results Snapshot & Strategic Implications</h2>
+          <div class="docs"><strong>To be filled with measured values.</strong> Replace placeholders after running §5A.</div>
+          <table>
+            <thead><tr><th>Task</th><th>Metric</th><th>Baseline</th><th>M-Stack</th><th>Δ</th></tr></thead>
+            <tbody>
+              <tr><td>SQuAD2-Unans</td><td>Hallucination ↓</td><td>—</td><td>—</td><td>—</td></tr>
+              <tr><td>TruthfulQA</td><td>Hallucination ↓</td><td>—</td><td>—</td><td>—</td></tr>
+              <tr><td>RAG</td><td>Unsupported claims ↓</td><td>—</td><td>—</td><td>—</td></tr>
+              <tr><td>All</td><td>AURC ↓</td><td>—</td><td>—</td><td>—</td></tr>
+              <tr><td>All</td><td>ECE ↓ / meta-d′ ↑</td><td>—</td><td>—</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="next">
+          <h2>13 Next-Sprint Checklist</h2>
+          <ol>
+            <li>Add conformal gating for RAG + APS/RAPS for classification heads</li>
+            <li>Swap M3 rules for CMDP (risk cap + budget)</li>
+            <li>Introduce a tiny PRM (distilled judge) and log step-scores</li>
+            <li>Build statement-graph contradiction + weighted aggregation</li>
+            <li>Ship RCC curves, shift-wise AURC/ECE, and ablations</li>
+          </ol>
+        </section>
+
+        <section id="appx">
+          <h2>14 Appendix: Methods & Prompts</h2>
+<h3>A. Conformal Calibration Recipes</h3>
+<pre><code># Nonconformity score s(x,y) and quantile q_{1-α} from calibration split
+emit_if s(x, y*) ≤ q_{1-α}    # guarantees error@coverage ≤ α under exchangeability
+
+# RAG citation-gated:
+# measure span-level coverage of claims by retrieved sources; gate on conformal τ
+</code></pre>
+
+<h3>B. CMDP Training Loop (Dual Variables)</h3>
+<pre><code>for batch in data:
+  a = policy(sig)
+  reward = utility(a) - λ*(cost(a)-B) - μ*(risk(a)-α)
+  policy.step(reward)
+  λ = max(0, λ + η*(cost(a)-B))
+  μ = max(0, μ + η*(risk(a)-α))
+</code></pre>
+
+<h3>C. PRM Schema (Process Supervision)</h3>
+<pre><code>{
+  "steps":[{"text":"...", "score":0.0..1.0, "rationale":"...", "flags":["unsupported","leap","unsafe"]}],
+  "final_score": mean(step_scores, weights)
+}
+</code></pre>
+
+<h3>D. Statement-Graph Contradiction</h3>
+<pre><code># Nodes = atomic claims from K samples; edges via NLI (entail/contra/neutral)
+# Emit when max consistent subgraph exceeds evaluator threshold
+</code></pre>
+
+<h3>E. Dawid–Skene Aggregation (Self-Consistency)</h3>
+<pre><code># Estimate per-path reliability; reweight sample votes when fusing
+# Avoid plurality overcounting low-quality paths
+</code></pre>
+
+<h3>F. RCC Plotting</h3>
+<pre><code># For coverage c in [0,1], select top-c by confidence; compute empirical risk
+# Plot risk(c) for each system with bootstrap CIs
+</code></pre>
+
+<h3>G. Dynamic-K Heuristic</h3>
+<pre><code># Features: early token entropy slope, retrieval density, prompt length, domain
+# Predict K ∈ {1,3,5}; saves ~30–50% cost at fixed risk
+</code></pre>
+
+<h3>H. Span-Level Logging</h3>
+<pre><code># Store claim→citation offsets (doc_id, span) for audit; hash policy configs
+</code></pre>
+        </section>
+
+        <section id="refs" class="refs">
+          <h2>References</h2>
+          <ol>
+            <li>Guo, C. et al. (2017) On Calibration of Modern Neural Networks. ICML.</li>
+            <li>Geifman, Y., El-Yaniv, R. (2017) Selective Classification. NeurIPS.</li>
+            <li>Lin, S. et al. (2021) TruthfulQA. arXiv.</li>
+            <li>Wang, X. et al. (2022) Self-Consistency. arXiv.</li>
+            <li>Zheng, L. et al. (2023) LLM-as-a-Judge. arXiv.</li>
+            <li>Manakul, P. et al. (2023) SelfCheckGPT. arXiv.</li>
+            <li>Maniscalco, B., Lau, H. (2012) meta-d′. Consciousness & Cognition.</li>
+            <!-- etc. -->
+          </ol>
+        </section>
+        <!-- ====== End pasted content ====== -->
+      </article>
+    </div>
+  </section>
+
+  <footer class="wrap reveal" style="margin-bottom:40px;">
+    <div class="glass panel" style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 18px;">
+      <div style="color:var(--muted);">© 2025 Aditya Morey</div>
+      <div style="display:flex;gap:12px;">
+        <a class="btn ghost" style="padding:8px 12px;border-radius:10px" href="#whitepaper">Whitepaper</a>
+        <a class="btn ghost" style="padding:8px 12px;border-radius:10px" href="./evidence.html">Evidence</a>
+        <a class="btn ghost" style="padding:8px 12px;border-radius:10px" href="https://github.com/apmorey93/mstack" target="_blank" rel="noopener noreferrer">GitHub</a>
       </div>
     </div>
   </footer>
 
   <script>
-    // ===== Parallax tilt on mouse (very subtle) =====
-    (function() {
-      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (prefersReduced) return;
-      const hero = document.querySelector('.hero');
-      if (!hero) return;
-      hero.addEventListener('mousemove', (e) => {
+    // Tilt
+    (function(){
+      const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if(prefersReduced) return;
+      const hero = document.querySelector('.hero'); if(!hero) return;
+      hero.addEventListener('mousemove',(e)=>{
         const r = hero.getBoundingClientRect();
-        const cx = (e.clientX - r.left) / r.width - 0.5;
-        const cy = (e.clientY - r.top) / r.height - 0.5;
-        hero.style.transform = `perspective(1000px) rotateX(${(-cy*1.2).toFixed(2)}deg) rotateY(${(cx*1.2).toFixed(2)}deg)`;
+        const cx = Math.max(-.5, Math.min(.5, (e.clientX - r.left)/r.width - .5));
+        const cy = Math.max(-.5, Math.min(.5, (e.clientY - r.top)/r.height - .5));
+        const rx = (-cy * 1.2).toFixed(2); const ry = (cx * 1.2).toFixed(2);
+        hero.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg)`;
       });
-      hero.addEventListener('mouseleave', () => {
-        hero.style.transform = 'none';
-      });
+      hero.addEventListener('mouseleave',()=>{ hero.style.transform='none'; });
     })();
 
-    // ===== Scroll-reveal (gentle) =====
-    (function() {
-      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Scroll reveal
+    (function(){
+      const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
       const els = document.querySelectorAll('.reveal');
-      if (prefersReduced) { els.forEach(el => el.classList.add('is-visible')); return; }
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); } });
-      }, { threshold: 0.1, rootMargin: '0px 0px -10% 0px' });
-      els.forEach(el => io.observe(el));
+      if(prefersReduced){ els.forEach(el=>el.classList.add('is-visible')); return; }
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('is-visible'); io.unobserve(e.target); }});
+      },{threshold:0.1, rootMargin:'0px 0px -10% 0px'});
+      els.forEach(el=>io.observe(el));
     })();
 
-    // ===== Count‑up chips when visible =====
-    (function() {
-      const el = document.querySelector('[data-countup]');
-      if (!el) return;
-      const target = parseFloat(el.getAttribute('data-countup')) || 60;
-      const suffix = el.getAttribute('data-suffix') || '%';
-      let started = false;
-      const run = () => {
-        if (started) return; started = true;
-        const t0 = performance.now();
-        const dur = 1200; // ms
-        const step = (now) => {
-          const k = Math.min(1, (now - t0) / dur);
-          const e = 1 - Math.pow(1 - k, 3); // easeOutCubic
-          el.textContent = `≈${Math.round(e * target)}${suffix} fewer hallucinations`;
-          if (k < 1) requestAnimationFrame(step);
-        };
-        requestAnimationFrame(step);
+    // Count-up
+    (function(){
+      const el = document.getElementById('halluc-counter'); if(!el) return;
+      const target = 60; const suffix = '%'; let started=false;
+      const run=()=>{ if(started) return; started=true;
+        const t0=performance.now(), dur=1800;
+        const step=(now)=>{ const k=Math.min(1,(now-t0)/dur); const e=1-Math.pow(1-k,3);
+          el.textContent = `≈${Math.round(e*target)}${suffix} fewer hallucinations`;
+          if(k<1) requestAnimationFrame(step);
+        }; requestAnimationFrame(step);
       };
-      const io = new IntersectionObserver((ents)=>{ if (ents[0].isIntersecting) { run(); io.disconnect(); } });
+      const io = new IntersectionObserver((ents)=>{ if(ents[0].isIntersecting){ run(); io.disconnect(); }});
       io.observe(el);
     })();
 
-    // ===== M‑Stack diagram pulsing sequence on enter =====
-    (function() {
-      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Diagram pulsing sequence
+    (function(){
+      const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
       const boxes = ['#m1','#m2','#m3','#m4'].map(q=>document.querySelector(q)).filter(Boolean);
-      if (!boxes.length) return;
-      const seq = () => {
-        boxes.forEach(b => b.classList.remove('is-on'));
-        let i = 0;
-        const tick = () => {
-          boxes.forEach(b => b.classList.remove('is-on'));
-          boxes[i].classList.add('is-on');
-          i = (i + 1) % boxes.length;
-          if (!prefersReduced) timer = setTimeout(tick, 900);
-        };
-        let timer = setTimeout(tick, 200);
+      if(!boxes.length) return;
+      const seq=()=>{ boxes.forEach(b=>b.classList.remove('is-on')); let i=0;
+        const tick=()=>{ boxes.forEach(b=>b.classList.remove('is-on')); boxes[i].classList.add('is-on'); i=(i+1)%boxes.length; if(!prefersReduced) timer=setTimeout(tick,900) };
+        let timer = setTimeout(tick,200);
       };
-      const io = new IntersectionObserver((ents)=>{ if (ents[0].isIntersecting) { seq(); io.disconnect(); } }, { threshold: 0.2 });
+      const io = new IntersectionObserver((ents)=>{ if(ents[0].isIntersecting){ seq(); io.disconnect(); }},{threshold:.2});
       io.observe(document.querySelector('.diagram'));
     })();
+
+    // Smooth anchor scroll w/ header offset
+    (function(){
+      const headerH = 72;
+      function scrollToId(id){
+        const el = document.querySelector(id); if(!el) return;
+        const y = el.getBoundingClientRect().top + scrollY - (headerH + 16);
+        scrollTo({top:y, behavior:'smooth'});
+      }
+      document.querySelectorAll('a[href^="#"]').forEach(a=>{
+        a.addEventListener('click',(e)=>{
+          const href=a.getAttribute('href'); if(href.length>1){ e.preventDefault(); history.pushState(null,'',href); scrollToId(href); }
+        });
+      });
+      if(location.hash) setTimeout(()=>scrollToId(location.hash),0);
+    })();
+
+    // Lab section reveal
+    (function(){
+      const labWrap = document.getElementById('lab-container'); if(!labWrap) return;
+      const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if(prefersReduced){ labWrap.classList.add('visible'); return; }
+      const io = new IntersectionObserver((ents)=>{ if(ents[0].isIntersecting){ labWrap.classList.add('visible'); io.disconnect(); }},{threshold:.12, rootMargin:'0px 0px -10% 0px'});
+      io.observe(labWrap);
+    })();
+
+    // Lab logic + accessible tabs
+    document.addEventListener('DOMContentLoaded', () => {
+      const lab = {
+        tabs: document.querySelectorAll('#lab-tabs button'),
+        demos: document.querySelectorAll('.lab-demo'),
+        runRagBtn: document.getElementById('lab-run-btn-rag'),
+        ragBaseOutput: document.getElementById('rag-base-output'),
+        ragMstackOutput: document.getElementById('rag-mstack-output'),
+        ragStatus: document.getElementById('lab-status-rag'),
+        runUnanswerableBtn: document.getElementById('lab-run-btn-unanswerable'),
+        unanswerableBaseOutput: document.getElementById('unanswerable-base-output'),
+        unanswerableMstackOutput: document.getElementById('unanswerable-mstack-output'),
+        unanswerableStatus: document.getElementById('lab-status-unanswerable'),
+        runRiskBtn: document.getElementById('lab-run-btn-risk'),
+        riskBudgetInput: document.getElementById('risk-budget'),
+        riskOutput: document.getElementById('risk-output'),
+        riskSvg: document.getElementById('risk-svg'),
+        riskStatus: document.getElementById('lab-status-risk'),
+        init(){
+          this.setupTabs();
+          this.runRagBtn.addEventListener('click',()=>this.runRagDemo());
+          this.runUnanswerableBtn.addEventListener('click',()=>this.runUnanswerableDemo());
+          this.runRiskBtn.addEventListener('click',()=>this.runRiskDemo());
+        },
+        setupTabs(){
+          const tabs = Array.from(this.tabs);
+          const select = (tab) => {
+            tabs.forEach(t=>{
+              const selected = t===tab;
+              t.classList.toggle('active',selected);
+              t.setAttribute('aria-selected', String(selected));
+              const panel = document.getElementById(`demo-${t.dataset.demo}`);
+              panel.classList.toggle('active', selected);
+              panel.hidden = !selected;
+            });
+          };
+          tabs.forEach(t=>{
+            t.addEventListener('click',()=>select(t));
+            t.addEventListener('keydown',(e)=>{
+              const i = tabs.indexOf(t);
+              if(e.key==='ArrowRight'){ e.preventDefault(); (tabs[i+1]||tabs[0]).focus(); select(tabs[i+1]||tabs[0]); }
+              if(e.key==='ArrowLeft'){ e.preventDefault(); (tabs[i-1]||tabs[tabs.length-1]).focus(); select(tabs[i-1]||tabs[tabs.length-1]); }
+              if(e.key==='Home'){ e.preventDefault(); tabs[0].focus(); select(tabs[0]); }
+              if(e.key==='End'){ e.preventDefault(); tabs[tabs.length-1].focus(); select(tabs[tabs.length-1]); }
+            });
+          });
+        },
+        async runRagDemo(){
+          this.ragStatus.textContent='Running...';
+          await new Promise(r=>setTimeout(r,400));
+          const base = "The Eiffel Tower is painted cobalt blue every 5 years.";
+          this.ragBaseOutput.textContent = base;
+          this.ragMstackOutput.innerHTML =
+            `Claim not supported by [S1].<hr class="signal">
+             <p class="signal">[M2 Evaluate]: Missing citation for color/interval.
+             <span class="decision-abstain">DECISION: ABSTAIN</span></p>`;
+          this.ragStatus.textContent='Complete';
+        },
+        async runUnanswerableDemo(){
+          this.unanswerableStatus.textContent='Running...';
+          await new Promise(r=>setTimeout(r,400));
+          const base = "The Golden Gate Bridge is famous for its 'International Orange' color.";
+          this.unanswerableBaseOutput.textContent = base;
+          this.unanswerableMstackOutput.innerHTML =
+            `${base}<hr class="signal"><p class="signal">[M1 Monitor]: High self-consistency disagreement (0.85). Answer may be hallucinated. <span class="decision-abstain">DECISION: ABSTAIN</span></p>`;
+          this.unanswerableStatus.textContent='Complete';
+        },
+        runRiskDemo(){
+          this.riskStatus.textContent='Running...';
+          const budget = parseFloat(this.riskBudgetInput.value)/100;
+          const items = [[0.98,false],[0.95,false],[0.92,true],[0.88,false],[0.85,false],[0.81,false],[0.76,true],[0.72,false],[0.68,false],[0.61,true],[0.55,false],[0.49,true],[0.42,true],[0.35,false],[0.21,true]].sort((a,b)=>b[0]-a[0]);
+          let emitted=0, errors=0;
+          for(const [score,isErr] of items){
+            if((errors+(isErr?1:0))/(emitted+1) <= budget){ emitted++; if(isErr) errors++; } else break;
+          }
+          const cov = (emitted/items.length)*100;
+          const risk = emitted>0 ? (errors/emitted)*100 : 0;
+          this.riskOutput.innerHTML = `<p><strong>Budget:</strong> ${(budget*100).toFixed(0)}%</p><p><strong>Emitted:</strong> ${emitted}/${items.length}</p><p><strong>Coverage:</strong> ${cov.toFixed(1)}%</p><p><strong>Risk:</strong> <span class="${risk>budget*100?'decision-abstain':'decision-emit'}">${risk.toFixed(1)}%</span></p>`;
+          this.drawChart(cov, risk, budget*100);
+          this.riskStatus.textContent='Complete';
+        },
+        drawChart(cov, risk, budget){
+          const svg = this.riskSvg; svg.innerHTML='';
+          const w=300,h=150,m={t:10,r:10,b:24,l:34};
+          const innerW=w-m.l-m.r, innerH=h-m.t-m.b;
+          const x=m.l+(cov/100)*innerW, y=m.t+(1-risk/100)*innerH, yBudget=m.t+(1-budget/100)*innerH;
+          const ns='http://www.w3.org/2000/svg';
+          const mk=(tag,attrs={})=>{ const el=document.createElementNS(ns,tag); Object.entries(attrs).forEach(([k,v])=>el.setAttribute(k,v)); return el; };
+          const grid=mk('g',{stroke:'rgba(255,255,255,0.12)','stroke-width':'0.5'});
+          [0,25,50,75,100].forEach(t=>{ const yy=m.t+(1-t/100)*innerH; grid.appendChild(mk('line',{x1:m.l,y1:yy,x2:w-m.r,y2:yy})); });
+          svg.appendChild(grid);
+          svg.appendChild(mk('line',{x1:m.l,y1:h-m.b,x2:w-m.r,y2:h-m.b,stroke:'rgba(255,255,255,0.6)'}));
+          svg.appendChild(mk('line',{x1:m.l,y1:m.t,x2:m.l,y2:h-m.b,stroke:'rgba(255,255,255,0.6)'}));
+          svg.appendChild(mk('line',{x1:m.l,y1:yBudget,x2:w-m.r,y2:yBudget,stroke:'#ef4444','stroke-dasharray':'4 2'}));
+          svg.appendChild(mk('path',{d:`M ${m.l} ${h-m.b} L ${x} ${y}`,fill:'none',stroke:'#00f0ff','stroke-width':'2'}));
+          svg.appendChild(mk('circle',{cx:x,cy:y,r:'4',fill:'#00f0ff'}));
+          const label=mk('text',{x:x+6,y:y-6,fill:'#e6e9f0','font-size':'10'}); label.textContent=`${cov.toFixed(0)}%, ${risk.toFixed(0)}%`; svg.appendChild(label);
+        }
+      };
+      lab.init();
+    });
   </script>
 </body>
 </html>
