@@ -68,3 +68,4 @@ function renderRccChart(results) {
 
     Plotly.newPlot('rcc-chart', traces, layout);
 }
+
