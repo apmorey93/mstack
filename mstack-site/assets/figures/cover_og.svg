@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#00aeef"/>
+      <stop offset="1" stop-color="#1A4C9A"/>
+    </linearGradient>
+    <style>
+      .title{font-family:Inter,Segoe UI,Arial,sans-serif;font-weight:700;fill:#fff;font-size:56px}
+      .subtitle{font-family:Inter,Segoe UI,Arial,sans-serif;fill:#e6f7ff;font-size:22px}
+    </style>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#g)"/>
+  <g transform="translate(80,120)">
+    <text x="0" y="0" class="title">Artificial Metacognition</text>
+    <text x="0" y="74" class="subtitle">M-Stack — a reliability architecture for safer AI</text>
+    <g transform="translate(0,120)">
+      <rect x="0" y="0" width="320" height="144" rx="12" fill="rgba(255,255,255,0.06)"/>
+      <text x="20" y="36" fill="#fff" style="font-size:20px;font-weight:600">Calibration ↓</text>
+      <text x="20" y="72" fill="#dff6ff" style="font-size:18px">Hallucination reduction</text>
+    </g>
+  </g>
+  <g transform="translate(870,120)">
+    <rect width="140" height="140" rx="20" fill="#fff" opacity="0.08"/>
+    <text x="20" y="94" font-family="Fira Code, monospace" font-size="72" fill="#fff">M</text>
+  </g>
+</svg>

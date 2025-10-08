@@ -1,47 +1,50 @@
 <!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Evidence & Benchmark Results - Artificial Metacognition</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code&display=swap" rel="stylesheet"/>
-    <script src="https://cdn.plot.ly/plotly-2.32.0.min.js" charset="utf-8"></script>
+    <meta charset="utf-8"/>
+    <title>Evidence — Artificial Metacognition (M-Stack)</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="description" content="Benchmark evidence and results for M-Stack."/>
+    <link rel="canonical" href="https://apmorey93.github.io/mstack/evidence.html"/>
+    <meta property="og:url" content="https://apmorey93.github.io/mstack/evidence.html"/>
+    <meta property="og:image" content="https://apmorey93.github.io/mstack/assets/figures/cover_og.svg"/>
+    <link rel="icon" href="assets/figures/favicon.svg" type="image/svg+xml"/>
     <style>
-        body { font-family: 'Inter', sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; color: #2B2B2B; }
-        h1, h2 { color: #1A4C9A; }
-        table { width: 100%; border-collapse: collapse; margin: 2rem 0; font-size: 0.95em; }
-        th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
-        th { background-color: #f8f8f8; }
-        .chart { border: 1px solid #ddd; border-radius: 8px; margin-bottom: 2rem; }
-        .note { font-size: 0.9em; color: #666; }
-        a { color: #00AEEF; }
+        body{font-family:Inter,system-ui,Arial;background:#071428;color:#E6EEF7;margin:0;padding:24px}
+        .wrap{max-width:1000px;margin:0 auto;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:24px;border-radius:12px}
+        a{color:#00AEEF}
+        header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+        h1{margin:0 0 8px}
+        .back{font-size:14px}
+        .note{color:#9fb0c6;margin-top:6px}
+        .chart{height:360px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:8px;margin-top:18px;display:flex;align-items:center;justify-content:center;color:#8fbfdc}
+        .table{background:rgba(255,255,255,0.02);padding:12px;border-radius:8px;margin-top:12px}
+        .muted{color:#9fb0c6}
     </style>
 </head>
 <body>
-    <header>
-        <h1>Benchmark Evidence</h1>
-        <p class="note">This page automatically renders the latest data from <code>results/results.json</code>. <a href="./index.html">Back to whitepaper</a>.</p>
-    </header>
+    <div class="wrap">
+        <header>
+            <div>
+                <a class="back" href="./index.html">← Back to whitepaper</a>
+                <h1>Evidence</h1>
+                <div class="note">Interactive charts and the latest benchmark results.</div>
+            </div>
+            <div>
+                <a class="btn" href="./index.html" style="background:#00AEEF;color:#042034;padding:8px 12px;border-radius:8px;text-decoration:none">Whitepaper</a>
+            </div>
+        </header>
 
-    <section>
-        <h2>Hallucination Rate</h2>
-        <table id="hallucination-table">
-            <thead>
-                <tr><th>Domain</th><th>Base</th><th>Self-Consistency</th><th>Judge-Gate</th><th>M-Stack</th></tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </section>
-
-    <section>
-        <h2>Calibration & Risk-Coverage</h2>
-        <table id="calibration-table">
-            <thead>
-                <tr><th>Metric</th><th>Base</th><th>M-Stack</th></tr>
-            </thead>
-            <tbody></tbody>
+        <section id="results" style="margin-top:18px">
+            <div id="tables" class="table muted"></div>
+            <div id="rcc" class="chart">Loading chart…</div>
+        </section>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <script src="evidence.js"></script>
+    </div>
+</body>
+</html>
         </table>
     </section>
     
