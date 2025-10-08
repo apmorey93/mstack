@@ -1,0 +1,16 @@
+{
+  "Overall": {
+    "Base":   { "ece": 0.250, "aurc": 0.420 },
+    "MStack": { "ece": 0.180, "aurc": 0.310 }
+  },
+  "RCC_Curves": {
+    "Base":    { "coverage": [0.2,0.4,0.6,0.8,1.0], "risk": [0.28,0.24,0.20,0.18,0.17] },
+    "M-Stack": { "coverage": [0.2,0.4,0.6,0.8,1.0], "risk": [0.20,0.17,0.15,0.13,0.12] }
+  },
+  "SQuAD2": {
+    "Base": { "hallucination_rate": 0.31 },
+    "SelfConsistency": { "hallucination_rate": 0.26 },
+    "JudgeGate": { "hallucination_rate": 0.22 },
+    "MStack": { "hallucination_rate": 0.18 }
+  }
+}
