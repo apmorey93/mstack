@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <title>Artificial Metacognition — M-Stack (v1.2)</title>
+  <title>Artificial Metacognition: M-Stack (v1.2)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="description" content="M-Stack: a reliability architecture that gives AI systems the ability to know when they're wrong."/>
   <meta name="author" content="Aditya Morey"/>
@@ -10,7 +10,7 @@
 
   <!-- Canonical + OG -->
   <link rel="canonical" href="https://apmorey93.github.io/mstack/"/>
-  <meta property="og:title" content="Artificial Metacognition — M-Stack (v1.2)"/>
+  <meta property="og:title" content="Artificial Metacognition: M-Stack (v1.2)"/>
   <meta property="og:description" content="A reliability architecture that knows when to slow down, verify, or abstain."/>
   <meta property="og:type" content="website"/>
   <meta property="og:url" content="https://apmorey93.github.io/mstack/"/>
@@ -20,7 +20,7 @@
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Artificial Metacognition — M-Stack (v1.2)">
+  <meta name="twitter:title" content="Artificial Metacognition: M-Stack (v1.2)">
   <meta name="twitter:description" content="A reliability architecture that knows when to slow down, verify, or abstain.">
   <meta name="twitter:image" content="https://apmorey93.github.io/mstack/assets/figures/cover_og.png">
 
@@ -199,16 +199,17 @@
   <header class="hero wrap glass reveal" id="main" role="heading" aria-level="1" aria-describedby="hero-desc">
     <span class="eyebrow">Whitepaper • v1.2</span>
     <h1 class="title">AI that knows when it’s wrong</h1>
-    <p id="hero-desc" class="lede">M-Stack wraps any model with a metacognitive layer that can monitor uncertainty, verify claims, and <em>choose to abstain</em> when evidence is weak — converting raw capability into <strong>auditable reliability</strong>.</p>
+    <p id="hero-desc" class="lede">M-Stack wraps any model with a metacognitive layer that can monitor uncertainty, verify claims, and <em>choose to abstain</em> when evidence is weak, converting raw capability into <strong>auditable reliability</strong>.</p>
     <div class="cta" role="group" aria-label="Primary actions">
       <a class="primary btn" href="#whitepaper">Read the Whitepaper</a>
       <a class="ghost btn" href="./evidence.html">Evidence & Benchmarks</a>
     </div>
     <div class="chips" aria-hidden="true">
-      <div class="chip" id="halluc-counter">≈0% fewer hallucinations</div>
+      <div class="chip" id="halluc-counter">≈42% fewer hallucinations (illustrative)</div>
       <div class="chip" id="aurc-counter">↓ AURC • ↑ calibration</div>
       <div class="chip">Audit-ready logs</div>
     </div>
+    <p style="margin:10px 0 0;font-size:12.5px;color:#9fb0c6;max-width:640px;">Benchmark figures on this page are illustrative demo data showing the evaluation methodology, not independently measured results.</p>
   </header>
 
   <!-- Summary -->
@@ -216,7 +217,7 @@
     <section id="summary" class="grid">
       <article class="panel glass reveal" aria-labelledby="what-is">
         <h2 id="what-is">What is M-Stack?</h2>
-        <p>A four-layer reliability architecture — <strong>Monitor → Evaluate → Control → Learn</strong> — that supervises generation, scores quality and grounding, chooses actions (<em>verify, revise, abstain, emit</em>), and adapts its thresholds over time.</p>
+        <p>A four-layer reliability architecture, <strong>Monitor → Evaluate → Control → Learn</strong>, that supervises generation, scores quality and grounding, chooses actions (<em>verify, revise, abstain, emit</em>), and adapts its thresholds over time.</p>
 
         <div class="cards" role="list">
           <div class="card" role="listitem"><h3>Monitor</h3><p>Entropy, disagreement, and contradiction checks identify risky outputs before they escape.</p></div>
@@ -228,7 +229,7 @@
         <div class="diagram" role="img" aria-labelledby="mstack-title" aria-describedby="mstack-desc">
           <svg viewBox="0 0 800 360" xmlns="http://www.w3.org/2000/svg">
             <title id="mstack-title">M-Stack feedback loop around a foundation model</title>
-            <desc id="mstack-desc">Four modules—Monitor, Evaluate, Control, Learn—surround a central model. Arrows connect them in a loop to form metacognitive supervision.</desc>
+            <desc id="mstack-desc">Four modules: Monitor, Evaluate, Control, Learn, surround a central model. Arrows connect them in a loop to form metacognitive supervision.</desc>
             <defs>
               <linearGradient id="g1" x1="0" x2="1">
                 <stop offset="0%" stop-color="#22d3ee"/>
@@ -413,8 +414,8 @@
         <section id="sec1">
           <h2>1 Executive Summary</h2>
           <p>Scale has delivered breathtaking capability. Trust requires a second ingredient: systems that know when to slow down, look again, or ask for help. Metacognition is that ingredient.</p>
-          <p>We present M-Stack, an inference-time reliability layer that monitors uncertainty and contradiction, evaluates quality and grounding, controls actions (verify, revise, abstain, emit), and learns thresholds over time—with additions for risk guarantees (RCC), conformal citation-gated RAG, process supervision, and cost-aware constrained control.</p>
-          <div class="docs"><strong>Evidence Preview.</strong> Our evaluation plan establishes hallucination reduction and improved risk–coverage at matched cost against strong baselines, with RCC curves and conformal calibration providing guarantees on error@coverage.</div>
+          <p>We present M-Stack, an inference-time reliability layer that monitors uncertainty and contradiction, evaluates quality and grounding, controls actions (verify, revise, abstain, emit), and learns thresholds over time, with additions for risk guarantees (RCC), conformal citation-gated RAG, process supervision, and cost-aware constrained control.</p>
+          <div class="docs"><strong>Evidence Preview.</strong> Our evaluation plan establishes hallucination reduction and improved risk-coverage at matched cost against strong baselines, with RCC curves and conformal calibration providing guarantees on error@coverage.</div>
         </section>
 
         <section id="sec2">
@@ -436,10 +437,10 @@
           <table>
             <thead><tr><th>Layer</th><th>Function</th><th>Typical Implementation</th><th>Key Outputs</th></tr></thead>
             <tbody>
-              <tr><td>M1 — Monitor</td><td>Detect uncertainty/contradiction</td><td>Sampling variance, entropy, NLI checks</td><td>Confidence, flags</td></tr>
-              <tr><td>M2 — Evaluate</td><td>Score quality/grounding</td><td>LLM-as-a-Judge, PRM (process)</td><td>Graded scores</td></tr>
-              <tr><td>M3 — Control</td><td>Choose action</td><td>Policy π(a|signals): verify, revise, abstain, emit</td><td>Decision trace</td></tr>
-              <tr><td>M4 — Learn</td><td>Adapt thresholds</td><td>Calibration + bandit updates</td><td>Updated params</td></tr>
+              <tr><td>M1: Monitor</td><td>Detect uncertainty/contradiction</td><td>Sampling variance, entropy, NLI checks</td><td>Confidence, flags</td></tr>
+              <tr><td>M2: Evaluate</td><td>Score quality/grounding</td><td>LLM-as-a-Judge, PRM (process)</td><td>Graded scores</td></tr>
+              <tr><td>M3: Control</td><td>Choose action</td><td>Policy π(a|signals): verify, revise, abstain, emit</td><td>Decision trace</td></tr>
+              <tr><td>M4: Learn</td><td>Adapt thresholds</td><td>Calibration + bandit updates</td><td>Updated params</td></tr>
             </tbody>
           </table>
 
@@ -468,14 +469,14 @@ update     λ, μ via dual ascent; tune thresholds for verify/abstain/emit.
         <section id="sec36">
           <h2>4.2 Process Supervision & Statement-Graph Contradiction</h2>
           <p>M2 adds a process reward model (PRM) that scores steps; M1 builds a claim graph across K samples using NLI edges. M3 emits when a consistent subgraph meets score, otherwise verify/revise.</p>
-<pre><code># Weighted aggregation (Dawid–Skene style)
+<pre><code># Weighted aggregation (Dawid-Skene style)
 # estimate path reliabilities and weight candidates before fusion
 </code></pre>
         </section>
 
         <section id="sec4">
           <h2>5 MetaBench: Benchmarking Metacognition</h2>
-          <p>We evaluate accuracy, calibration (ECE, meta-d′), risk–coverage (AURC), RCC (guaranteed risk at coverage), hallucination rate, and abstention quality.</p>
+          <p>We evaluate accuracy, calibration (ECE, meta-d′), risk-coverage (AURC), RCC (guaranteed risk at coverage), hallucination rate, and abstention quality.</p>
         </section>
 
         <section id="sec4a">
@@ -523,7 +524,7 @@ update     λ, μ via dual ascent; tune thresholds for verify/abstain/emit.
 
         <section id="sec5">
           <h2>6 Industry Application Scenarios</h2>
-          <p>Customer support, clinical QA, auto-code, and enterprise RAG—with citation-gated emission and PRM-guided revisions.</p>
+          <p>Customer support, clinical QA, auto-code, and enterprise RAG, with citation-gated emission and PRM-guided revisions.</p>
         </section>
 
         <section id="sec5b">
@@ -542,7 +543,7 @@ update     λ, μ via dual ascent; tune thresholds for verify/abstain/emit.
 
         <section id="sec6">
           <h2>9 Cost of Metacognition</h2>
-          <p>Dynamic-K and localized revision (PRM-guided) recover 30–50% of overhead at fixed risk.</p>
+          <p>Dynamic-K and localized revision (PRM-guided) recover 30-50% of overhead at fixed risk.</p>
         </section>
 
         <section id="sec7">
@@ -571,11 +572,11 @@ def pipeline(query):
           <table>
             <thead><tr><th>Task</th><th>Metric</th><th>Baseline</th><th>M-Stack</th><th>Δ</th></tr></thead>
             <tbody>
-              <tr><td>SQuAD2-Unans</td><td>Hallucination ↓</td><td>—</td><td>—</td><td>—</td></tr>
-              <tr><td>TruthfulQA</td><td>Hallucination ↓</td><td>—</td><td>—</td><td>—</td></tr>
-              <tr><td>RAG</td><td>Unsupported claims ↓</td><td>—</td><td>—</td><td>—</td></tr>
-              <tr><td>All</td><td>AURC ↓</td><td>—</td><td>—</td><td>—</td></tr>
-              <tr><td>All</td><td>ECE ↓ / meta-d′ ↑</td><td>—</td><td>—</td><td>—</td></tr>
+              <tr><td>SQuAD2-Unans</td><td>Hallucination ↓</td><td>·</td><td>·</td><td>·</td></tr>
+              <tr><td>TruthfulQA</td><td>Hallucination ↓</td><td>·</td><td>·</td><td>·</td></tr>
+              <tr><td>RAG</td><td>Unsupported claims ↓</td><td>·</td><td>·</td><td>·</td></tr>
+              <tr><td>All</td><td>AURC ↓</td><td>·</td><td>·</td><td>·</td></tr>
+              <tr><td>All</td><td>ECE ↓ / meta-d′ ↑</td><td>·</td><td>·</td><td>·</td></tr>
             </tbody>
           </table>
         </section>
@@ -622,7 +623,7 @@ emit_if s(x, y*) ≤ q_{1-α}    # guarantees error@coverage ≤ α under exchan
 # Emit when max consistent subgraph exceeds evaluator threshold
 </code></pre>
 
-<h3>E. Dawid–Skene Aggregation (Self-Consistency)</h3>
+<h3>E. Dawid-Skene Aggregation (Self-Consistency)</h3>
 <pre><code># Estimate per-path reliability; reweight sample votes when fusing
 # Avoid plurality overcounting low-quality paths
 </code></pre>
@@ -634,7 +635,7 @@ emit_if s(x, y*) ≤ q_{1-α}    # guarantees error@coverage ≤ α under exchan
 
 <h3>G. Dynamic-K Heuristic</h3>
 <pre><code># Features: early token entropy slope, retrieval density, prompt length, domain
-# Predict K ∈ {1,3,5}; saves ~30–50% cost at fixed risk
+# Predict K ∈ {1,3,5}; saves ~30-50% cost at fixed risk
 </code></pre>
 
 <h3>H. Span-Level Logging</h3>
@@ -701,11 +702,11 @@ emit_if s(x, y*) ≤ q_{1-α}    # guarantees error@coverage ≤ α under exchan
     // Count-up
     (function(){
       const el = document.getElementById('halluc-counter'); if(!el) return;
-      const target = 60; const suffix = '%'; let started=false;
+      const target = 42; const suffix = '%'; let started=false;
       const run=()=>{ if(started) return; started=true;
         const t0=performance.now(), dur=1800;
         const step=(now)=>{ const k=Math.min(1,(now-t0)/dur); const e=1-Math.pow(1-k,3);
-          el.textContent = `≈${Math.round(e*target)}${suffix} fewer hallucinations`;
+          el.textContent = `≈${Math.round(e*target)}${suffix} fewer hallucinations (illustrative)`;
           if(k<1) requestAnimationFrame(step);
         }; requestAnimationFrame(step);
       };

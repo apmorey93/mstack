@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 function renderHallucinationTable(results) {
   const tableBody = document.querySelector('#hallucination-table tbody');
   for (const domain in results) {
-    if (results[domain].Base && results[domain].MStack) {
+    if (results[domain].Base && results[domain].Base.hallucination_rate !== undefined && results[domain].MStack) {
       const row = tableBody.insertRow();
       row.innerHTML = `
         <td>${domain}</td>
@@ -61,10 +61,12 @@ function renderRccChart(results) {
   }));
 
   const layout = {
-    title: 'Risk-Controlling Coverage (RCC)',
-    xaxis: { title: 'Coverage' },
-    yaxis: { title: 'Empirical Risk (Error Rate)' },
-    legend: { x: 0.1, y: 0.9 }
+    title: { text: 'Risk-Controlling Coverage (RCC), illustrative', font: { color: '#E6EEF7' } },
+    xaxis: { title: 'Coverage', color: '#9fb0c6', gridcolor: 'rgba(255,255,255,0.08)' },
+    yaxis: { title: 'Empirical Risk (Error Rate)', color: '#9fb0c6', gridcolor: 'rgba(255,255,255,0.08)' },
+    legend: { x: 0.1, y: 0.9, font: { color: '#E6EEF7' } },
+    paper_bgcolor: 'rgba(0,0,0,0)',
+    plot_bgcolor: 'rgba(0,0,0,0)'
   };
 
   Plotly.newPlot('rcc-chart', traces, layout);
